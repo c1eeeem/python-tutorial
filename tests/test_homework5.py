@@ -81,4 +81,19 @@ def test_card_value():
     assert test_file.card_value('БТ') == 14
 
 
+def test_is_flash_royal():
+    assert test_file.is_flash_royal(['Б10', 'БВ', 'БД', 'БК', 'БТ']) == True
+    assert test_file.is_flash_royal(['Ч10', 'ЧВ', 'ЧД', 'ЧК', 'ЧТ']) == True
+    assert test_file.is_flash_royal(['К10', 'КВ', 'КД', 'КК', 'КТ']) == True
+    assert test_file.is_flash_royal(['П10', 'ПВ', 'ПД', 'ПК', 'ПТ']) == True
+
+    assert test_file.is_flash_royal(['Б10', 'БВ', 'БД', 'ЧК', 'БТ']) == False
+    assert test_file.is_flash_royal(['Б10', 'БВ', 'БД', 'БК', 'Б10']) == False
+    assert test_file.is_flash_royal(['Б7', 'БВ', 'БД', 'БК', 'БТ']) == False
+
+
+def test_is_flash():
+    pass
+
 test_card_value()
+test_is_flash_royal()

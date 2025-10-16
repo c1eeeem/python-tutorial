@@ -38,6 +38,28 @@ def card_value(card: str) -> int:  # 'КД' -> 12 'К10' -> 10
     return int(value)
 
 
+def is_flash_royal(cards):
+    """
+    Возвращает True если в списке cards есть комбинация Флеш. False в ином случае.
+    :param cards: список карт
+    bool :return: Наличие комбинации Флеш в списке cards
+    """
+    if all(x in cards for x in ['Ч10', 'ЧВ', 'ЧД', 'ЧК', 'ЧТ']):
+        return True
+    if all(x in cards for x in ['П10', 'ПВ', 'ПД', 'ПК', 'ПТ']):
+        return True
+    if all(x in cards for x in ['К10', 'КВ', 'КД', 'КК', 'КТ']):
+        return True
+    if all(x in cards for x in ['Б10', 'БВ', 'БД', 'БК', 'БТ']):
+        return True
+    return False
+
+
+def is_flash(cards):
+    suits = [x[0] for x in cards]
+    return suits.count('Ч') == 5 or suits.count('П') == 5 or suits.count('К') == 5 or suits.count('Б') == 5
+
+
 def main():
     count_players = 5
     board: list = []
@@ -66,9 +88,10 @@ def main():
             deck.remove(random_card)
 
     for hand in players:
-        l = hand + board
+        l: list[str] = hand + board
         l.sort(key=card_value)
-        print(l)
+        if is_flash_royal(l):
+            print("Флеш-Рояль")
 
     # достоинство - value
     # масть - suit
@@ -79,5 +102,4 @@ def main():
 
 
 if __name__ == '__main__':
-    print(__name__)
     main()

@@ -3,7 +3,7 @@ import hw.homework5 as test_file
 
 def test_card_value():
     # 2
-    assert test_file.card_value('Ч2') == 2
+    assert test_file.card_value('Ч2') == 2 # предложенное изменение
     assert test_file.card_value('П2') == 2
     assert test_file.card_value('К2') == 2
     assert test_file.card_value('Б2') == 2

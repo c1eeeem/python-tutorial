@@ -82,18 +82,21 @@ def test_card_value():
 
 
 def test_is_flash_royal():
-    assert test_file.is_flash_royal(['Б10', 'БВ', 'БД', 'БК', 'БТ']) == True
-    assert test_file.is_flash_royal(['Ч10', 'ЧВ', 'ЧД', 'ЧК', 'ЧТ']) == True
-    assert test_file.is_flash_royal(['К10', 'КВ', 'КД', 'КК', 'КТ']) == True
-    assert test_file.is_flash_royal(['П10', 'ПВ', 'ПД', 'ПК', 'ПТ']) == True
-
-    assert test_file.is_flash_royal(['Б10', 'БВ', 'БД', 'ЧК', 'БТ']) == False
-    assert test_file.is_flash_royal(['Б10', 'БВ', 'БД', 'БК', 'Б10']) == False
-    assert test_file.is_flash_royal(['Б7', 'БВ', 'БД', 'БК', 'БТ']) == False
+    assert test_file.is_flash_royal(['Б10', 'БВ', 'БД', 'БК', 'БТ', 'Б9', 'Ч2']) == True
+    assert test_file.is_flash_royal(['Ч10', 'ЧВ', 'ЧД', 'ЧК', 'ЧТ', 'П3', 'Б8']) == True
+    assert test_file.is_flash_royal(['К10', 'КВ', 'КД', 'КК', 'КТ', 'К7', 'П6']) == True
+    assert test_file.is_flash_royal(['П10', 'ПВ', 'ПД', 'ПК', 'ПТ', 'Б5', 'К4']) == True
+    assert test_file.is_flash_royal(['Б10', 'БВ', 'БД', 'ЧК', 'БТ', 'П6', 'Б8']) == False
+    assert test_file.is_flash_royal(['Б10', 'БВ', 'БД', 'БК', 'Б10', 'Б7', 'Ч3']) == False
+    assert test_file.is_flash_royal(['Б7', 'БВ', 'БД', 'БК', 'БТ', 'П5', 'К9']) == False
 
 
 def test_is_flash():
-    pass
+    assert test_file.is_flash(['Б2', 'Б5', 'Б7', 'Б9', 'БТ']) == True
+    assert test_file.is_flash(['Ч3', 'Ч6', 'Ч8', 'ЧД', 'ЧК', 'П5', 'К9']) == True
+    assert test_file.is_flash(['Б2', 'Б5', 'Ч7', 'Б9', 'БТ']) == False
+    assert test_file.is_flash(['Б2', 'Б5', 'Б7', 'Б9', 'ЧТ']) == False
+    assert test_file.is_flash(['Б2', 'Ч5', 'К7', 'П9', 'БТ', 'БК', 'БД']) == False
 
 test_card_value()
 test_is_flash_royal()

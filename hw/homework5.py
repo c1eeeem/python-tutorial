@@ -55,6 +55,22 @@ def is_flash_royal(cards):
     return False
 
 
+def is_straight(cards: list[str]) -> bool:
+    values = []
+    for card in cards:
+        values.append(card_value(card))
+
+    values_no_dublicate = list(set(values))
+    if len(values_no_dublicate) < 5:
+        return False
+
+    for i in range(len(values_no_dublicate) - 4):
+        if values_no_dublicate[i + 4] - values_no_dublicate[i] == 4:
+            return True
+
+    return False
+
+
 def is_flash(cards):
     suits = [x[0] for x in cards]
     return suits.count('Ч') == 5 or suits.count('П') == 5 or suits.count('К') == 5 or suits.count('Б') == 5

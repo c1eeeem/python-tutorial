@@ -98,5 +98,16 @@ def test_is_flash():
     assert test_file.is_flash(['Б2', 'Б5', 'Б7', 'Б9', 'ЧТ']) == False
     assert test_file.is_flash(['Б2', 'Ч5', 'К7', 'П9', 'БТ', 'БК', 'БД']) == False
 
+
+def test_is_straight():
+    assert test_file.is_straight(['П5', 'К5', 'Б9', 'Б9', 'К9', 'Б10', 'БВ']) == False
+    assert test_file.is_straight(['П5', 'К6', 'Б9', 'Б9', 'К9', 'Б10', 'БВ']) == False
+    assert test_file.is_straight(['П7', 'К8', 'Б9', 'Б9', 'К9', 'Б10', 'БВ']) == True
+    assert test_file.is_straight(['П7', 'К8', 'Б9', 'Б10', 'КВ', 'Б10', 'БВ']) == True
+    assert test_file.is_straight(['Б3', 'Б6', 'П7', 'К8', 'Б9', 'Б10', 'КВ']) == True
+    assert test_file.is_straight(['Б3', 'П7', 'К8', 'Б9', 'К9', 'Б10', 'КВ']) == True
+
+
 test_card_value()
 test_is_flash_royal()
+test_is_straight()

@@ -108,6 +108,20 @@ def test_is_straight():
     assert test_file.is_straight(['Б3', 'П7', 'К8', 'Б9', 'К9', 'Б10', 'КВ']) == True
 
 
+def test_is_quads():
+    assert test_file.is_quads(['Б3', 'П7', 'К8', 'ПВ', 'ЧВ', 'БВ', 'КВ']) == True
+    assert test_file.is_quads(['Б3', 'Ч3', 'К3', 'П3', 'БТ', 'П7', 'Ч6']) == True
+    assert test_file.is_quads(['Б10', 'Ч10', 'К10', 'П10', 'ЧВ', 'К7', 'Б2']) == True
+    assert test_file.is_quads(['Б5', 'Ч5', 'К5', 'П5', 'БВ', 'Ч10', 'П7']) == True
+    assert test_file.is_quads(['Б8', 'Ч8', 'К8', 'П8', 'БВ', 'К9', 'П5']) == True
+    assert test_file.is_quads(['БТ', 'ЧТ', 'КТ', 'ПТ', 'Ч10', 'Б5', 'П7']) == True
+    assert test_file.is_quads(['БТ', 'ЧТ', 'КТ', 'К10', 'Ч10', 'Б5', 'П7']) == False
+    assert test_file.is_quads(['Б10', 'Ч6', 'КТ', 'К10', 'Ч10', 'Б5', 'П7']) == False
+    assert test_file.is_quads(['Б5', 'Ч7', 'К5', 'П5', 'БВ', 'Ч10', 'П7']) == False
+
+
+
 test_card_value()
 test_is_flash_royal()
 test_is_straight()
+test_is_quads()

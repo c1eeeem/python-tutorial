@@ -7,6 +7,7 @@
 # print(is_safe_bridge("#"))        # True
 
 import random
+import collections
 
 deck = [
     'Ч2', 'П2', 'К2', 'Б2',
@@ -24,8 +25,19 @@ deck = [
     'ЧТ', 'ПТ', 'КТ', 'БТ'
 ]
 
+rank_combinations = {10: "флеш-рояль",
+                     9: 'стрит-флеш',
+                     8: 'каре',
+                     7: 'фул-фаус',
+                     6: 'флеш',
+                     5: "стрит",
+                     4: "тройка",
+                     3: "две пары",
+                     2: "пара",
+                     1: "старшая карта"}
 
-def card_value(card: str) -> int:  # 'КД' -> 12 'К10' -> 10
+
+def card_value(card: str) -> int:
     q = {'В': 11,
          'Д': 12,
          'К': 13,
@@ -76,10 +88,80 @@ def is_flash(cards):
     return suits.count('Ч') == 5 or suits.count('П') == 5 or suits.count('К') == 5 or suits.count('Б') == 5
 
 
+def is_straight_flush(cards):
+    suits = ['Ч', 'П', 'К', 'Б']
+    for suit in suits:
+        suited_cards = [c for c in cards if c[0] == suit]
+        if len(suited_cards) >= 5 and is_straight(suited_cards):
+            return True
+    return False
+
+
+def open_river():
+    a = []
+    for _ in range(5):
+        random_card = random.choice(deck)
+        a.append(random_card)
+        deck.remove(random_card)
+
+    return a
+
+
+def deal_hands(count_hands):
+    hands = [[] for _ in range(count_hands)]
+    for hand in hands:
+        for _ in range(2):
+            random_card = random.choice(deck)
+            hand.append(random_card)
+            deck.remove(random_card)
+
+    return hands
+
+def is_quads(cards: list[str]): # ['П5', 'К5', 'Б9', 'Б9', 'К9', 'Б10', 'БВ']
+    values = []
+    for card in cards:
+        values.append(card_value(card))
+
+    # for item in collections.Counter(values).values():
+    #     if item == 4:
+    #         return True
+    for value in values:
+        if values.count(value) == 4:
+            return True
+    return False
+
+def is_pair(cards: list[str]):
+    values = [card_value(card) for card in cards]
+    for v in set(values):
+        if values.count(v) == 2:
+            return True
+    return False
+
+
+def is_trips(cards: list[str]):
+    values = [card_value(card) for card in cards]
+    for v in set(values):
+        if values.count(v) == 3:
+            return True
+    return False
+
+
+def rank_hand(hand, board):
+    l: list[str] = hand + board
+    l.sort(key=card_value)
+    if is_flash_royal(l):
+        return 10
+    elif is_straight_flush(l):
+        return 9
+    elif is_quads(l):
+        return 8
+    elif
+
+
 def main():
     count_players = 5
-    board: list = []
-    players: list[list] = [[] for _ in range(count_players)]
+    board: list = open_river()
+    players: list[list] = deal_hands(count_players)
 
     results = {"флеш-рояль": 0,
                'стрит-флеш': 0,
@@ -92,22 +174,9 @@ def main():
                "пара": 0,
                "старшая карта": 0}
 
-    for _ in range(5):
-        random_card = random.choice(deck)
-        board.append(random_card)
-        deck.remove(random_card)
-
-    for player in players:
-        for _ in range(2):
-            random_card = random.choice(deck)
-            player.append(random_card)
-            deck.remove(random_card)
-
     for hand in players:
-        l: list[str] = hand + board
-        l.sort(key=card_value)
-        if is_flash_royal(l):
-            print("Флеш-Рояль")
+        rank = rank_hand(hand, board)
+        results[rank_combinations[rank]] += 1
 
     # достоинство - value
     # масть - suit

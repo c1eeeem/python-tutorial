@@ -37,17 +37,24 @@ rank_combinations = {10: "флеш-рояль",
                      1: "старшая карта"}
 
 
-def card_value(card: str) -> int:
+def card_value(cards: list) -> list[int] | int:
     q = {'В': 11,
          'Д': 12,
          'К': 13,
          'Т': 14}
 
-    value = card[1:]
-    if value in 'ВДКТ':
-        return q[value]
+    result = []
+    for card in cards:
+        value = card[1:]
+        if value in 'ВДКТ':
+            result.append(q[value])
+        else:
+            result.append(int(value))
 
-    return int(value)
+    if len(result) == 1:
+        return result[0]
+    else:
+        return result
 
 
 def is_flash_royal(cards):
@@ -68,10 +75,7 @@ def is_flash_royal(cards):
 
 
 def is_straight(cards: list[str]) -> bool:
-    values = []
-    for card in cards:
-        values.append(card_value(card))
-
+    values = card_value(cards)
     values_no_dublicate = list(set(values))
     if len(values_no_dublicate) < 5:
         return False
@@ -117,10 +121,11 @@ def deal_hands(count_hands):
 
     return hands
 
-def is_quads(cards: list[str]): # ['П5', 'К5', 'Б9', 'Б9', 'К9', 'Б10', 'БВ']
+
+def is_quads(cards: list[str]):  # ['П5', 'К5', 'Б9', 'Б9', 'К9', 'Б10', 'БВ']
     values = []
     for card in cards:
-        values.append(card_value(card))
+        values.append(card_value([card]))
 
     # for item in collections.Counter(values).values():
     #     if item == 4:
@@ -130,8 +135,9 @@ def is_quads(cards: list[str]): # ['П5', 'К5', 'Б9', 'Б9', 'К9', 'Б10', '�
             return True
     return False
 
+
 def is_pair(cards: list[str]):
-    values = [card_value(card) for card in cards]
+    values = [card_value([card]) for card in cards]
     for v in set(values):
         if values.count(v) == 2:
             return True
@@ -139,11 +145,12 @@ def is_pair(cards: list[str]):
 
 
 def is_trips(cards: list[str]):
-    values = [card_value(card) for card in cards]
+    values = [card_value([card]) for card in cards]
     for v in set(values):
         if values.count(v) == 3:
             return True
     return False
+
 
 
 def rank_hand(hand, board):
@@ -155,7 +162,7 @@ def rank_hand(hand, board):
         return 9
     elif is_quads(l):
         return 8
-    elif
+    # elif
 
 
 def main():
@@ -177,13 +184,6 @@ def main():
     for hand in players:
         rank = rank_hand(hand, board)
         results[rank_combinations[rank]] += 1
-
-    # достоинство - value
-    # масть - suit
-
-    # print(board)
-    # print(players)
-    # print(deck)
 
 
 if __name__ == '__main__':

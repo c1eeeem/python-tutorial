@@ -80,6 +80,11 @@ def test_card_value():
     assert test_file.card_value('КТ') == 14
     assert test_file.card_value('БТ') == 14
 
+    # assert test_file.card_value(['БТ']) == 14
+    # assert test_file.card_value(['Б10']) == 10
+    # assert test_file.card_value(['Б10', 'БВ', 'БД', 'БК', 'БТ', 'Б9', 'Ч2']) == [10, 11, 12, 13, 14, 9, 2]
+    # assert test_file.card_value(['Ч10', 'ЧВ', 'ЧД', 'ЧК', 'ЧТ', 'П3', 'Б8']) == [10, 11, 12, 13, 14, 3, 8]
+
 
 def test_is_flash_royal():
     assert test_file.is_flash_royal(['Б10', 'БВ', 'БД', 'БК', 'БТ', 'Б9', 'Ч2']) == True
@@ -120,8 +125,13 @@ def test_is_quads():
     assert test_file.is_quads(['Б5', 'Ч7', 'К5', 'П5', 'БВ', 'Ч10', 'П7']) == False
 
 
+def test_is_pair():
+    assert test_file.is_pair(['Б3', 'П7', 'К8', 'ПВ', 'ЧВ', 'БВ', 'КВ']) == False
+    assert test_file.is_pair(['Б5', 'Ч7', 'К5', 'П5', 'БВ', 'Ч10', 'П7']) == True
+
 
 test_card_value()
 test_is_flash_royal()
 test_is_straight()
 test_is_quads()
+test_is_pair()

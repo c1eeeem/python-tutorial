@@ -37,23 +37,26 @@ rank_combinations = {10: "флеш-рояль",
                      1: "старшая карта"}
 
 
-def card_value(cards: list) -> list[int] | int:
-    q = {'В': 11,
-         'Д': 12,
-         'К': 13,
-         'Т': 14}
+def card_value(cards: list | str) -> list[int] | int:
+    q = {'В': 11, 'Д': 12, 'К': 13, 'Т': 14}
 
-    result = []
-    for card in cards:
+    if isinstance(cards, str):
+        card = cards
         value = card[1:]
-        if value in 'ВДКТ':
-            result.append(q[value])
-        else:
-            result.append(int(value))
 
-    if len(result) == 1:
-        return result[0]
-    else:
+        if value in q:
+            return q[value]
+        return int(value)
+
+    elif isinstance(cards, list):
+        result = []
+        for card in cards:
+            value = card[1:]
+            if value in q:
+                result.append(q[value])
+            else:
+                result.append(int(value))
+
         return result
 
 
@@ -137,20 +140,19 @@ def is_quads(cards: list[str]):  # ['П5', 'К5', 'Б9', 'Б9', 'К9', 'Б10', '
 
 
 def is_pair(cards: list[str]):
-    values = [card_value([card]) for card in cards]
+    values = card_value(cards)
     for v in set(values):
-        if values.count(v) == 2:
+        if values.count(v) >= 2:
             return True
     return False
 
 
 def is_trips(cards: list[str]):
-    values = [card_value([card]) for card in cards]
+    values = card_value(cards)
     for v in set(values):
         if values.count(v) == 3:
             return True
     return False
-
 
 
 def rank_hand(hand, board):
@@ -162,7 +164,30 @@ def rank_hand(hand, board):
         return 9
     elif is_quads(l):
         return 8
-    # elif
+    elif is_full_house(l):
+        return 7
+    elif is_flash(l):
+        return 6
+    elif is_straight(l):
+        return 5
+    elif is_trips(l):
+        return 4
+    # elif is_
+
+
+def is_double_pair(cards: list[str]):
+    values = card_value(cards)
+    pairs = 0
+    for v in set(values):
+        if values.count(v) == 2:
+            pairs += 1
+    return pairs == 2
+
+
+
+
+def is_full_house(cards: list[str]):
+    return is_pair(cards) and is_trips(cards)
 
 
 def main():

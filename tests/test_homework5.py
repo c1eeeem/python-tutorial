@@ -126,8 +126,34 @@ def test_is_quads():
 
 
 def test_is_pair():
-    assert test_file.is_pair(['Б3', 'П7', 'К8', 'ПВ', 'ЧВ', 'БВ', 'КВ']) == False
+    assert test_file.is_pair(['Б3', 'П7', 'К8', 'ПВ', 'ЧВ', 'БВ', 'КВ']) == True
     assert test_file.is_pair(['Б5', 'Ч7', 'К5', 'П5', 'БВ', 'Ч10', 'П7']) == True
+    assert test_file.is_pair(['Б5', 'Ч7', 'К5', 'П5', 'Б5', 'Ч10', 'П7']) == True
+
+
+def test_is_full_house():
+    assert  test_file.is_full_house(['Б3', 'П7', 'К8', 'П7', 'Ч7', 'БВ', 'КВ']) == True
+    assert  test_file.is_full_house(['Б5', 'Ч7', 'К5', 'П5', 'БВ', 'Ч10', 'П7']) == True
+    assert  test_file.is_full_house(['Б5', 'Ч7', 'К5', 'П5', 'БВ', 'Ч10', 'П8']) == False
+    assert  test_file.is_full_house(['Б5', 'Ч7', 'К5', 'П5', 'Б10', 'Ч10', 'П10']) == True
+    assert  test_file.is_full_house(['Б6', 'Ч7', 'К5', 'П5', 'БВ', 'Ч10', 'П7']) == False
+    assert  test_file.is_full_house(['Б6', 'Ч7', 'КТ', 'П5', 'БВ', 'Ч10', 'ПТ']) == False
+    assert  test_file.is_full_house(['Б6', 'Ч6', 'К6', 'П5', 'Б10', 'Ч10', 'ПТ']) == True
+    assert  test_file.is_full_house(['Б6', 'Ч6', 'К6', 'ПК', 'БК', 'ЧТ', 'ПТ']) == True
+    assert  test_file.is_full_house(['Б6', 'Ч6', 'К5', 'ПК', 'БК', 'ЧТ', 'ПТ']) == False
+    assert  test_file.is_full_house(['Б6', 'Ч8', 'К8', 'ПК', 'БК', 'Ч8', 'ПТ']) == True
+    assert  test_file.is_full_house(['Б6', 'Ч7', 'К8', 'П9', 'Б10', 'ЧВ', 'ПД']) == True
+
+
+def test_is_double_pair():
+    assert test_file.is_double_pair(['Ч5', 'П5', 'К9', 'Б9', 'Б10', 'Ч2', 'К3']) == True
+    assert test_file.is_double_pair(['Ч4', 'П4', 'КД', 'БД', 'Ч9', 'К6', 'П3']) == True
+    assert test_file.is_double_pair(['ЧВ', 'БВ', 'К3', 'П3', 'Ч10', 'П2', 'Б6']) == True
+    assert test_file.is_double_pair(['К6', 'Б6', 'ЧТ', 'ПТ', 'П8', 'Б3', 'К2']) == True
+    assert test_file.is_double_pair(['Ч5', 'П5', 'К9', 'Б10', 'Ч4', 'П3', 'К2']) == False
+    assert test_file.is_double_pair(['Ч7', 'П7', 'К7', 'Б9', 'Ч2', 'П3', 'К4']) == False
+    assert test_file.is_double_pair(['Ч9', 'П9', 'Б9', 'ЧД', 'БД', 'К5', 'П6']) == False
+    assert test_file.is_double_pair(['Ч2', 'П5', 'К8', 'БВ', 'Ч10', 'К3', 'П6']) == False
 
 
 test_card_value()
@@ -135,3 +161,5 @@ test_is_flash_royal()
 test_is_straight()
 test_is_quads()
 test_is_pair()
+test_is_full_house()
+test_is_double_pair()
